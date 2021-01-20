@@ -26,9 +26,23 @@ class RandomWords extends StatefulWidget {
 }
 
 class _RandomWordsState extends State<RandomWords> {
+  List<WordPair> words = [];
+
   @override
   Widget build(BuildContext context) {
-    final wordPair = WordPair.random();
-    return Text(wordPair.asCamelCase);
+    return ListView.builder(itemBuilder: (BuildContext context, int index) {
+      if (index >= words.length) words.addAll(generateWordPairs().take(10));
+      return _getRow(words[index]);
+    });
+  }
+
+  Widget _getRow(WordPair wordPair) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Text(
+        wordPair.asCamelCase,
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+      ),
+    );
   }
 }

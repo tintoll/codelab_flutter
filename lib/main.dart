@@ -1,5 +1,5 @@
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:my_first_app_1/word_list_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,66 +10,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Welcome to Flutter',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('This is Appbar'),
-        ),
-        body: Center(child: RandomWords()),
-      ),
+      home: WordListPage()
     );
   }
 }
 
-class RandomWords extends StatefulWidget {
-  @override
-  _RandomWordsState createState() => _RandomWordsState();
-}
 
-class _RandomWordsState extends State<RandomWords> {
-  List<WordPair> words = [];
-  Set<WordPair> saved = Set<WordPair>();
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(itemBuilder: (BuildContext context, int index) {
-      if (index >= words.length) words.addAll(generateWordPairs().take(10));
-      return _getRow(words[index]);
-    });
-  }
-
-  Widget _getRow(WordPair wordPair) {
-
-    bool _isAlreadySaved = saved.contains(wordPair);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ListTile(
-          onTap: () {
-            setState(() {
-              if(_isAlreadySaved) {
-                saved.remove(wordPair);
-              } else {
-                saved.add(wordPair);
-              }
-            });
-          },
-          title: Text(
-            wordPair.asCamelCase,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-          ),
-          trailing: Icon(
-            _isAlreadySaved ? Icons.favorite : Icons.favorite_border,
-            color: _isAlreadySaved ? Colors.redAccent : Colors.grey,),
-        ),
-        Divider(
-          thickness: 1,
-          color: Colors.grey[300],
-          height: 5,
-          indent: 16,
-          endIndent: 16,
-        )
-      ],
-    );
-  }
-}

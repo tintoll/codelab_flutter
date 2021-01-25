@@ -2,8 +2,10 @@ import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_app_1/favorite_list_page.dart';
 
+
+Set<WordPair> _saved = Set<WordPair>();
 class WordListPage extends StatelessWidget {
-  const WordListPage({
+   const WordListPage({
     Key key,
   }) : super(key: key);
 
@@ -15,7 +17,7 @@ class WordListPage extends StatelessWidget {
         actions: [
           IconButton(icon: Icon(Icons.favorite), onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-              return FavoriteListPage();
+              return FavoriteListPage(_saved.toList());
             }));
           }),
         ],
@@ -33,7 +35,7 @@ class RandomWords extends StatefulWidget {
 
 class _RandomWordsState extends State<RandomWords> {
   List<WordPair> words = [];
-  Set<WordPair> saved = Set<WordPair>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,7 @@ class _RandomWordsState extends State<RandomWords> {
   }
 
   Widget _getRow(WordPair wordPair) {
-    bool _isAlreadySaved = saved.contains(wordPair);
+    bool _isAlreadySaved = _saved.contains(wordPair);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,9 +55,9 @@ class _RandomWordsState extends State<RandomWords> {
           onTap: () {
             setState(() {
               if (_isAlreadySaved) {
-                saved.remove(wordPair);
+                _saved.remove(wordPair);
               } else {
-                saved.add(wordPair);
+                _saved.add(wordPair);
               }
             });
           },
